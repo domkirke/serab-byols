@@ -177,7 +177,8 @@ def get_timestamp_embeddings(
 def get_scene_embeddings(
     audio_list: List,
     model: torch.nn.Module,
-    cfg_path: str = './serab-byols/serab_byols/config.yaml'
+    cfg_path: str = './serab-byols/serab_byols/config.yaml',
+    device: torch.device = torch.device('cpu')
 ) -> Tensor:
     """
     This function returns a single embedding for each audio clip. In this baseline
@@ -191,8 +192,6 @@ def get_scene_embeddings(
         - embeddings, A float32 Tensor with shape
             (n_sounds, model.scene_embedding_size).
     """
-    # Check if device has cuda
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     # Load config file
     cfg = load_yaml_config(cfg_path)
     to_melspec = MelSpectrogram(

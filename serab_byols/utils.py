@@ -66,14 +66,15 @@ def frame_audio(
     # Zero pad the beginning and the end of the incoming audio with half a frame number
     # of samples. This centers the audio in the middle of each frame with respect to
     # the timestamps.
-    audio = F.pad(audio, (frame_size // 2, frame_size - frame_size // 2))
+    audio = F.pad(audio, (int(frame_size // 2), int(frame_size - frame_size // 2)))
     num_padded_samples = audio.shape[1]
 
-    frame_step = hop_size / 1000.0 * sample_rate
+    frame_step = int(hop_size / 1000.0 * sample_rate)
     frame_number = 0
     frames = []
     timestamps = []
     frame_start = 0
+    frame_size = int(frame_size)
     frame_end = frame_size
     while True:
         frames.append(audio[:, frame_start:frame_end])
